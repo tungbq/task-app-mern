@@ -7,15 +7,22 @@ export default function Todos() {
 	const addTodo = (e) => {
 		e.preventDefault();
     if (!todoText) return
-		setTodos([...todos, { text: todoText }]);
+    const newTodo = { checked: false, text: todoText }
+    setTodos([...todos, newTodo]);
     setTodoText("")
 	};
+
+  const toggleTodo = (index) => {
+    const newTodoList = [...todos]
+    newTodoList[index].checked = !newTodoList[index].checked
+    setTodos(newTodoList)
+  }
 
 	return (
 		<div>
 			{todos.map((todo, index) => (
 				<div key={index}>
-					<input type='checkbox' />
+					<input onChange={() =>toggleTodo(index)} type='checkbox' />
 					<label>{todo.text}</label>
 				</div>
 			))}
