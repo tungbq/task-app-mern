@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Register from './pages/Register';
 import Welcome from './pages/Welcome';
+import Login from './pages/Login';
 
 export const CredentalsContext = React.createContext(null);
 
@@ -21,6 +22,9 @@ function App() {
 						</Route>
 						<Route exact path='/register'>
 							<Register />
+						</Route>
+						<Route exact path='/login'>
+							<Login />
 						</Route>
 					</Switch>
 				</Router>
