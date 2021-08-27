@@ -1,8 +1,28 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { CredentalsContext } from '../App';
+import { handleErrors } from '../pages/Login';
 
 export default function Todos() {
 	const [todos, setTodos] = useState([]);
 	const [todoText, setTodoText] = useState('');
+  const [credentials] = useContext(CredentalsContext)
+
+  const persist = () => {
+    fetch(`http://localhost:4000/todos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${credentials.username}:${credentials.password}`
+      },
+      body: JSON.stringify(todos)
+    })
+    .then(() => {})
+  }
+
+  useEffect(() => {
+    persist()
+  }, [todos, credentials])
+
 
 	const addTodo = (e) => {
 		e.preventDefault();

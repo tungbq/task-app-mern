@@ -25,6 +25,19 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
+// define a schema
+const todoSchema = new mongoose.Schema({
+  userID: String,
+	todos: [
+    {
+      checked: Boolean,
+      text: String
+    }
+  ],
+	password: String,
+});
+const Todos = mongoose.model('Todos', todoSchema);
+
 app.use(cors());
 app.use(express.json());
 
@@ -64,6 +77,35 @@ app.post('/login', async (req, res) => {
 	res.send({
 		message: 'success',
 	});
+});
+
+app.post('/todos', async (req, res) => {
+	const { authorization } = req.headers
+  const [, token] = authorization.split(" ")
+  const [username, password] = token.split(":")
+
+  const todosItems = req.body
+	const user = await User.findOne({ username }).exec();
+
+  if (!user || user.password !== password) {
+		return res.status(403).send({
+			message: 'Invalid login!',
+		});
+	}
+
+  const todos = await Todos.findOne({userID: user._id}).exec()
+
+  if (!todos) {
+    await Todos.create({
+      userID: user._id,
+      todos: todosItems,
+    })
+  } else {
+    todos.todos = todosItems
+    await todos.save()
+  }
+
+  res.json(todos)
 });
 
 app.listen(PORT, () => {
