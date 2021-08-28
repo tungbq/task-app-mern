@@ -108,6 +108,25 @@ app.post('/todos', async (req, res) => {
   res.json(todos)
 });
 
+app.get('/todos', async (req, res) => {
+	const { authorization } = req.headers
+  const [, token] = authorization.split(" ")
+  const [username, password] = token.split(":")
+
+  const todosItems = req.body
+	const user = await User.findOne({ username }).exec();
+
+  if (!user || user.password !== password) {
+		return res.status(403).send({
+			message: 'Invalid login!',
+		});
+	}
+
+  const { todos } = await Todos.findOne({userID: user._id}).exec()
+	res.json(todos)
+});
+
+
 app.listen(PORT, () => {
 	console.log(`Server is up and running on port ${PORT}`);
 });
