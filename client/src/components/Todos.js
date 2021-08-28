@@ -21,6 +21,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+// Delete
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+
 const useStyles = makeStyles((theme) => ({
 	formControl: {
 		margin: theme.spacing(2),
@@ -47,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: '33%',
 		marginRight: '33%',
 		height: 100,
+	},
+	margin: {
+		margin: theme.spacing(1),
+	},
+	extendedIcon: {
+		marginRight: theme.spacing(1),
 	},
 }));
 
@@ -96,6 +106,16 @@ export default function Todos() {
 		persist(newTodos);
 	};
 
+	const deleteTodo = (id) => {
+		if (window.confirm('Delete the item?')) {
+			const newTodoList = todos.filter((todo) => todo._id !== id);
+	
+			setTodos(newTodoList);
+			persist(newTodoList);
+		}
+		
+	};
+
 	const toggleTodo = (id) => {
 		const newTodoList = [...todos];
 		const todoItem = newTodoList.find((todo) => todo._id === id);
@@ -142,6 +162,7 @@ export default function Todos() {
 					Add
 				</Button>
 			</form>
+			<br />
 
 			<List className={classes.list} justify='center'>
 				{getTodos().map((todo) => {
@@ -170,6 +191,14 @@ export default function Todos() {
 								id={labelId}
 								primary={todo.text}
 							/>
+
+							<IconButton
+								color='secondary'
+								aria-label='delete'
+								className={classes.margin}
+								onClick={() => deleteTodo(todo._id)}>
+								<DeleteIcon />
+							</IconButton>
 						</ListItem>
 					);
 				})}

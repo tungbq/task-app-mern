@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		flexGrow: 1,
 	},
+	button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 export default function Welcome() {
