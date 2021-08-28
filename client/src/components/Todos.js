@@ -6,6 +6,7 @@ export default function Todos() {
 	const [todos, setTodos] = useState([]);
 	const [todoText, setTodoText] = useState('');
   const [credentials] = useContext(CredentalsContext)
+  const [filter, setFilter] = useState('uncompleted')
 
   const persist = (newTodos) => {
     fetch(`http://localhost:4000/todos`, {
@@ -19,16 +20,8 @@ export default function Todos() {
     .then(() => {})
   }
 
-  const get_todos = () => {
-    fetch(`http://localhost:4000/todos`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${credentials.username}:${credentials.password}`
-      }
-    })
-    .then((response) => response.json())
-    .then((todos) => setTodos(todos))
+  const getTodos = () => {
+    return todos
   }
 
   useEffect(() => {
@@ -61,9 +54,18 @@ export default function Todos() {
     persist(newTodoList)
   }
 
+  const changeFilter = (newFilter) => {
+    setFilter(newFilter)
+  }
+
 	return (
 		<div>
-			{todos.map((todo, index) => (
+      <select onChange={(e) => changeFilter(e.target.value)}>
+        <option value="completed">Completed</option>
+        <option value="uncompleted">UnCompleted</option>
+      </select>
+
+			{getTodos().map((todo, index) => (
 				<div key={index}>
 					<input checked={todo.checked ? 'checked' : ''} onChange={() => toggleTodo(index)} type='checkbox' />
 					<label>{todo.text}</label>
