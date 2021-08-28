@@ -14,14 +14,15 @@ export default function Welcome() {
 
 	return (
 		<div>
-			{credentials && <button onClick={logout}>Logout</button>}
-			<h1>Welcome {credentials ? credentials.username : "To Task App"}</h1>
+			<h1>Welcome {credentials ? credentials.username : "to Task App"}</h1>
 			{/* {!credentials && <Link to='/register'>Register</Link>}
 			<br />
 			{!credentials && <Link to='/login'>Login</Link>} */}
 			{!credentials && <Login />}
 			<br />
 			{credentials && <Todos />}
+
+			{credentials && <button onClick={logout}>Logout</button>}
 		</div>
 	);
 }
