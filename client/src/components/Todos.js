@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CredentalsContext } from '../App';
 import { handleErrors } from '../pages/Login';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Todos() {
 	const [todos, setTodos] = useState([]);
@@ -42,7 +43,7 @@ export default function Todos() {
 	const addTodo = (e) => {
 		e.preventDefault();
     if (!todoText) return
-    const newTodo = { checked: false, text: todoText }
+    const newTodo = { _id: uuidv4() , checked: false, text: todoText }
     const newTodos = [...todos, newTodo]
     setTodos(newTodos);
     setTodoText("")

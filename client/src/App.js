@@ -10,10 +10,7 @@ import Login from './pages/Login';
 export const CredentalsContext = React.createContext(null);
 
 function App() {
-  const credentialsState = useState({
-    username: 'tungleo',
-    password: '123456' // TODO: Temp, remove it!
-  })
+  const credentialsState = useState(null)
 
 	return (
 		<CredentalsContext.Provider value={credentialsState}>

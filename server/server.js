@@ -31,7 +31,8 @@ const todoSchema = new mongoose.Schema({
 	todos: [
     {
       checked: Boolean,
-      text: String
+      text: String,
+			_id: String
     }
   ],
 	password: String,
