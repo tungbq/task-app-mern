@@ -18,29 +18,59 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
 const useStyles = makeStyles((theme) => ({
 	formControl: {
-		margin: theme.spacing(1),
+		margin: theme.spacing(2),
 		minWidth: 120,
 	},
 	selectEmpty: {
 		marginTop: theme.spacing(2),
+		marginBottom: theme.spacing(2),
+	},
+	textField: {
+		// width: '90%',
+		marginLeft: 'auto',
+		marginRight: '5px',
+		paddingBottom: 0,
+		marginTop: 'auto',
+		height: 40,
+		// fontWeight: 500,
+	},
+	button: {
+		height: 55	,
 	},
 }));
 
-const useListStyles = makeStyles((theme) => ({
-	root: {
-		margin: theme.spacing(1),
-		width: '100%',
-		maxWidth: 360,
-		textAlign: 'center',
-		minWidth: 120,
-		// backgroundColor: theme.palette.background.paper,
+const useTextStyles = makeStyles((theme) => ({
+	input: {
+		height: 40,
+	},
+	button: {
+		height: 40,
+	},
+	selectRoot: {
+		height: 40,
+		display: 'table',
+		// display: "flex",
+		// justifyContent: "center",
+		// alignItems: "center",
+	},
+	select: {
+		height: 40,
+		paddingTop: 0,
+		paddingBottom: 0,
+		display: 'table-cell',
+		verticalAlign: 'middle',
 	},
 }));
+
+
 
 export default function Todos() {
-	const classes_list = useListStyles();
 
 	const classes = useStyles();
 	const [todos, setTodos] = useState([]);
@@ -116,18 +146,83 @@ export default function Todos() {
 
 			<br />
 
-			<List className={classes_list.root}>
+			{/* <Grid container direction='row' spacing='8'>
+				<Grid item>
+					<TextField
+						variant='outlined'
+						label='text'
+						InputProps={{
+							className: classes.input,
+						}}
+						InputLabelProps={{
+							shrink: true,
+						}}
+					/>
+				</Grid>
+				<Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            size="large"
+          >
+            Save
+          </Button>
+        </Grid>
+			</Grid> */}
+
+			<form onSubmit={addTodo} autoComplete='off'>
+				{/* <TextField
+					style={}
+					value={todoText}
+					onChange={(e) => setTodoText(e.target.value)}
+					id='standard-basic'
+				/> */}
+				<>
+					<TextField
+						className={classes.textField}
+						value={todoText}
+						onChange={(e) => setTodoText(e.target.value)}
+						id='outlined-basic'
+						// label='Outlined'
+						variant='outlined'
+						// height='1000px'
+					/>
+					<Button
+						className={classes.button}
+						type='submit'
+						variant='contained'
+						color='primary'>
+						Add
+					</Button>
+				</>
+			</form>
+
+			{/* 
+			<form onSubmit={addTodo}>
+				<input
+					value={todoText}
+					onChange={(e) => setTodoText(e.target.value)}
+					type='text'
+				/>
+				<button type='submit'>Add</button>
+			</form> */}
+			<br />
+
+			{/* <List className={classes_list.root}> */}
+			<List>
 				{getTodos().map((todo) => {
 					const labelId = `checkbox-list-label-${todo._id}`;
 
 					return (
+						// <ListItem key={todo._id} role={undefined} dense button>
 						<ListItem key={todo._id} role={undefined} dense button>
-							<ListItemIcon >
+							<ListItemIcon>
 								<Checkbox
-									edge='start'
+									// edge='start'
 									checked={todo.checked ? 'checked' : ''}
-									tabIndex={-1}
-									disableRipple
+									// tabIndex={-1}
+									// disableRipple
 									inputProps={{ 'aria-labelledby': labelId }}
 									onClick={() => toggleTodo(todo._id)}
 								/>
@@ -137,16 +232,6 @@ export default function Todos() {
 					);
 				})}
 			</List>
-
-			<br />
-			<form onSubmit={addTodo}>
-				<input
-					value={todoText}
-					onChange={(e) => setTodoText(e.target.value)}
-					type='text'
-				/>
-				<button type='submit'>Add</button>
-			</form>
 		</div>
 	);
 }
