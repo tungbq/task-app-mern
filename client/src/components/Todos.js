@@ -21,7 +21,9 @@ export default function Todos() {
   }
 
   const getTodos = () => {
-    return todos
+      return todos.filter((todo) =>
+        filter === 'completed' ? todo.checked : !todo.checked
+      )
   }
 
   useEffect(() => {
@@ -47,9 +49,11 @@ export default function Todos() {
     persist(newTodos)
 	};
 
-  const toggleTodo = (index) => {
+  const toggleTodo = (id) => {
     const newTodoList = [...todos]
-    newTodoList[index].checked = !newTodoList[index].checked
+    const todoItem = newTodoList.find(todo => todo._id === id)
+    todoItem.checked = !todoItem.checked
+
     setTodos(newTodoList)
     persist(newTodoList)
   }
@@ -61,13 +65,13 @@ export default function Todos() {
 	return (
 		<div>
       <select onChange={(e) => changeFilter(e.target.value)}>
-        <option value="completed">Completed</option>
         <option value="uncompleted">UnCompleted</option>
+        <option value="completed">Completed</option>
       </select>
 
-			{getTodos().map((todo, index) => (
-				<div key={index}>
-					<input checked={todo.checked ? 'checked' : ''} onChange={() => toggleTodo(index)} type='checkbox' />
+			{getTodos().map((todo) => (
+				<div key={todo._id}>
+					<input checked={todo.checked ? 'checked' : ''} onChange={() => toggleTodo(todo._id)} type='checkbox' />
 					<label>{todo.text}</label>
 				</div>
 			))}
