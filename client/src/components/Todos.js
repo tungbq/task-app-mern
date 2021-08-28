@@ -143,12 +143,9 @@ export default function Todos() {
 				</Button>
 			</form>
 
-			<br />
-
 			<List className={classes.list} justify='center'>
 				{getTodos().map((todo) => {
 					const labelId = `checkbox-list-label-${todo._id}`;
-
 					return (
 						<ListItem
 							className={classes.list_item}
@@ -177,6 +174,15 @@ export default function Todos() {
 					);
 				})}
 			</List>
+
+			{/* <br />
+			<Button
+				className={classes.button}
+				type='submit'
+				variant='contained'
+				color='secondary'>
+				Remove all completed
+			</Button> */}
 		</div>
 	);
 }

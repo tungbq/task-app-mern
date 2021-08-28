@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
 	},
+	appBar: {
+		marginTop: 0,
+	},
 	menuButton: {
 		marginRight: theme.spacing(2),
 	},
@@ -36,10 +39,9 @@ export default function Welcome() {
 	return (
 		<div>
 			{!credentials && <Login />}
-			<br />
 
 			{credentials && (
-				<AppBar position='static'>
+				<AppBar position='static' className={classes.appBar}>
 					<Toolbar>
 						<IconButton
 							edge='start'
