@@ -104,6 +104,7 @@ export default function Todos() {
 		const newTodo = { _id: uuidv4(), checked: false, text: todoText };
 		const newTodos = [...todos, newTodo];
 		setTodos(newTodos);
+		setFilter('uncompleted');
 		setTodoText('');
 		persist(newTodos);
 	};
