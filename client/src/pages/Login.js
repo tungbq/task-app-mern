@@ -104,6 +104,9 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+
+        {error && (<span style={{color: "red"}}>{error}</span>)}
+
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
