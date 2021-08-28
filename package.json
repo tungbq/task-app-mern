@@ -10,9 +10,13 @@
     "mongoose": "^6.0.2",
     "uuid": "^8.3.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "concurrently": "^6.2.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon server/server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC"
