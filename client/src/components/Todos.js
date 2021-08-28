@@ -30,9 +30,12 @@ const useStyles = makeStyles((theme) => ({
 
 const useListStyles = makeStyles((theme) => ({
 	root: {
+		margin: theme.spacing(1),
 		width: '100%',
 		maxWidth: 360,
-		backgroundColor: theme.palette.background.paper,
+		textAlign: 'center',
+		minWidth: 120,
+		// backgroundColor: theme.palette.background.paper,
 	},
 }));
 
@@ -111,24 +114,22 @@ export default function Todos() {
 				</Select>
 			</FormControl>
 
+			<br />
+
 			<List className={classes_list.root}>
 				{getTodos().map((todo) => {
 					const labelId = `checkbox-list-label-${todo._id}`;
 
 					return (
-						<ListItem
-							key={todo._id}
-							role={undefined}
-							dense
-							button
-							onClick={() => toggleTodo(todo._id)}>
-							<ListItemIcon>
+						<ListItem key={todo._id} role={undefined} dense button>
+							<ListItemIcon >
 								<Checkbox
 									edge='start'
 									checked={todo.checked ? 'checked' : ''}
 									tabIndex={-1}
 									disableRipple
 									inputProps={{ 'aria-labelledby': labelId }}
+									onClick={() => toggleTodo(todo._id)}
 								/>
 							</ListItemIcon>
 							<ListItemText id={labelId} primary={todo.text} />
