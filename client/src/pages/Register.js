@@ -1,53 +1,152 @@
-import React, { useContext, useState } from 'react'
-import { useHistory } from "react-router-dom";
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { useHistory } from 'react-router-dom';
+
 import { CredentalsContext } from '../App';
+import React, { useContext, useState } from 'react';
 import { handleErrors } from './Login';
 
-export default function Register() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [credentials, setCredentials] = useContext(CredentalsContext)
+// export const handleErrors = async (response) => {
+//   if (!response.ok) {
+//       const {message} = await response.json()
+//       console.log("message:", message)
+//       throw Error(message);
+//   }
+//   return response;
+// }
 
-  const register = (e) => {
-    e.preventDefault()
-    fetch(`http://localhost:4000/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      })
-    })
-    .then(handleErrors)
-    .then(() => {
-      setCredentials({
-        username,
-        password
-      })
-      history.push('/')
-    })
-    .catch((err) => {
-      setError(err.message)
-    })
-  }
+function Copyright() {
+	return (
+		<Typography variant='body2' color='textSecondary' align='center'>
+			{'Copyright © '}
+			<Link color='inherit' href='https://material-ui.com/'>
+				Tung Task App
+			</Link>{' '}
+			{new Date().getFullYear()}
+			{'.'}
+		</Typography>
+	);
+}
 
-  const history = useHistory()
+const useStyles = makeStyles((theme) => ({
+	paper: {
+		marginTop: theme.spacing(8),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+	},
+	avatar: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.secondary.main,
+	},
+	form: {
+		width: '100%', // Fix IE 11 issue.
+		marginTop: theme.spacing(1),
+	},
+	submit: {
+		margin: theme.spacing(3, 0, 2),
+	},
+}));
 
-  return (
-    <div>
-      <h1>Register</h1>
-      {error && (<span style={{color: "red"}}>{error}</span>)}
-      <form>
-        <input onChange={(e) => setUsername(e.target.value)} placeholder="username" />
-        <br />
-        <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="password" />
-        <br />
+export default function SignIn() {
+	const classes = useStyles();
 
-        <button type="submit" onClick={register}>Register</button>
-      </form>
-    </div>
-  )
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+	const [credentials, setCredentials] = useContext(CredentalsContext);
+
+	const register = (e) => {
+		e.preventDefault();
+		fetch(`http://localhost:4000/register`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				username,
+				password,
+			}),
+		})
+			.then(handleErrors)
+			.then(() => {
+				setCredentials({
+					username,
+					password,
+				});
+				history.push('/');
+			})
+			.catch((err) => {
+				setError(err.message);
+			});
+	};
+
+	const history = useHistory();
+
+	return (
+		<Container component='main' maxWidth='xs'>
+			<CssBaseline />
+			<div className={classes.paper}>
+				<Avatar className={classes.avatar}>
+					<LockOutlinedIcon />
+				</Avatar>
+				<Typography component='h1' variant='h5'>
+					Register
+				</Typography>
+
+        {error && (<span style={{color: "red"}}>{error}</span>)}
+
+				<form className={classes.form} noValidate>
+					<TextField
+						variant='outlined'
+						margin='normal'
+						required
+						fullWidth
+						id='username'
+						label='Username'
+						name='username'
+						autoComplete='username'
+						autoFocus
+						onChange={(e) => setUsername(e.target.value)}
+					/>
+					<TextField
+						variant='outlined'
+						margin='normal'
+						required
+						fullWidth
+						name='password'
+						label='Password'
+						type='password'
+						id='password'
+						autoComplete='current-password'
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+
+					<Button
+						type='submit'
+						fullWidth
+						variant='contained'
+						color='primary'
+						className={classes.submit}
+						onClick={register}>
+						Register
+					</Button>
+				</form>
+			</div>
+			<Box mt={8}>
+				<Copyright />
+			</Box>
+		</Container>
+	);
 }
