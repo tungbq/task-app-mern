@@ -20,7 +20,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -32,46 +31,26 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(2),
 	},
 	textField: {
-		// width: '90%',
+		width: '30%',
 		marginLeft: 'auto',
 		marginRight: '5px',
 		paddingBottom: 0,
 		marginTop: 'auto',
 		height: 40,
-		// fontWeight: 500,
 	},
 	button: {
-		height: 55	,
+		height: 55,
+	},
+	list: {
+		alignItems: 'center',
+		justify: 'center',
+		marginLeft: '33%',
+		marginRight: '33%',
+		height: 100,
 	},
 }));
-
-const useTextStyles = makeStyles((theme) => ({
-	input: {
-		height: 40,
-	},
-	button: {
-		height: 40,
-	},
-	selectRoot: {
-		height: 40,
-		display: 'table',
-		// display: "flex",
-		// justifyContent: "center",
-		// alignItems: "center",
-	},
-	select: {
-		height: 40,
-		paddingTop: 0,
-		paddingBottom: 0,
-		display: 'table-cell',
-		verticalAlign: 'middle',
-	},
-}));
-
-
 
 export default function Todos() {
-
 	const classes = useStyles();
 	const [todos, setTodos] = useState([]);
 	const [todoText, setTodoText] = useState('');
@@ -146,88 +125,54 @@ export default function Todos() {
 
 			<br />
 
-			{/* <Grid container direction='row' spacing='8'>
-				<Grid item>
-					<TextField
-						variant='outlined'
-						label='text'
-						InputProps={{
-							className: classes.input,
-						}}
-						InputLabelProps={{
-							shrink: true,
-						}}
-					/>
-				</Grid>
-				<Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            size="large"
-          >
-            Save
-          </Button>
-        </Grid>
-			</Grid> */}
-
 			<form onSubmit={addTodo} autoComplete='off'>
-				{/* <TextField
-					style={}
+				<TextField
+					className={classes.textField}
 					value={todoText}
 					onChange={(e) => setTodoText(e.target.value)}
-					id='standard-basic'
-				/> */}
-				<>
-					<TextField
-						className={classes.textField}
-						value={todoText}
-						onChange={(e) => setTodoText(e.target.value)}
-						id='outlined-basic'
-						// label='Outlined'
-						variant='outlined'
-						// height='1000px'
-					/>
-					<Button
-						className={classes.button}
-						type='submit'
-						variant='contained'
-						color='primary'>
-						Add
-					</Button>
-				</>
+					id='outlined-basic'
+					label='Task'
+					variant='outlined'
+				/>
+				<Button
+					className={classes.button}
+					type='submit'
+					variant='contained'
+					color='primary'>
+					Add
+				</Button>
 			</form>
 
-			{/* 
-			<form onSubmit={addTodo}>
-				<input
-					value={todoText}
-					onChange={(e) => setTodoText(e.target.value)}
-					type='text'
-				/>
-				<button type='submit'>Add</button>
-			</form> */}
 			<br />
 
-			{/* <List className={classes_list.root}> */}
-			<List>
+			<List className={classes.list} justify='center'>
 				{getTodos().map((todo) => {
 					const labelId = `checkbox-list-label-${todo._id}`;
 
 					return (
-						// <ListItem key={todo._id} role={undefined} dense button>
-						<ListItem key={todo._id} role={undefined} dense button>
+						<ListItem
+							className={classes.list_item}
+							key={todo._id}
+							role={undefined}
+							dense
+							button
+							justify='center'>
 							<ListItemIcon>
 								<Checkbox
-									// edge='start'
+									edge='start'
 									checked={todo.checked ? 'checked' : ''}
-									// tabIndex={-1}
-									// disableRipple
+									tabIndex={-1}
+									disableRipple
 									inputProps={{ 'aria-labelledby': labelId }}
 									onClick={() => toggleTodo(todo._id)}
 								/>
 							</ListItemIcon>
-							<ListItemText id={labelId} primary={todo.text} />
+
+							<ListItemText
+								className={classes.list_item_text}
+								id={labelId}
+								primary={todo.text}
+							/>
 						</ListItem>
 					);
 				})}
