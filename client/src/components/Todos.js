@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CredentalsContext } from '../App';
-import { handleErrors } from '../pages/Login';
 import { v4 as uuidv4 } from 'uuid';
 
 // using material UI
@@ -10,6 +9,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+
+// use list items from material UI
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -21,7 +28,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const useListStyles = makeStyles((theme) => ({
+	root: {
+		width: '100%',
+		maxWidth: 360,
+		backgroundColor: theme.palette.background.paper,
+	},
+}));
+
 export default function Todos() {
+	const classes_list = useListStyles();
+
 	const classes = useStyles();
 	const [todos, setTodos] = useState([]);
 	const [todoText, setTodoText] = useState('');
@@ -82,11 +99,6 @@ export default function Todos() {
 
 	return (
 		<div>
-			{/* <select onChange={(e) => changeFilter(e.target.value)}>
-        <option value="uncompleted">UnCompleted</option>
-        <option value="completed">Completed</option>
-      </select> */}
-
 			<FormControl className={classes.formControl}>
 				<InputLabel id='demo-simple-select-label'>Status</InputLabel>
 				<Select
@@ -99,16 +111,31 @@ export default function Todos() {
 				</Select>
 			</FormControl>
 
-			{getTodos().map((todo) => (
-				<div key={todo._id}>
-					<input
-						checked={todo.checked ? 'checked' : ''}
-						onChange={() => toggleTodo(todo._id)}
-						type='checkbox'
-					/>
-					<label>{todo.text}</label>
-				</div>
-			))}
+			<List className={classes_list.root}>
+				{getTodos().map((todo) => {
+					const labelId = `checkbox-list-label-${todo._id}`;
+
+					return (
+						<ListItem
+							key={todo._id}
+							role={undefined}
+							dense
+							button
+							onClick={() => toggleTodo(todo._id)}>
+							<ListItemIcon>
+								<Checkbox
+									edge='start'
+									checked={todo.checked ? 'checked' : ''}
+									tabIndex={-1}
+									disableRipple
+									inputProps={{ 'aria-labelledby': labelId }}
+								/>
+							</ListItemIcon>
+							<ListItemText id={labelId} primary={todo.text} />
+						</ListItem>
+					);
+				})}
+			</List>
 
 			<br />
 			<form onSubmit={addTodo}>
