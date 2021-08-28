@@ -2,19 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { CredentalsContext } from '../App';
 import { v4 as uuidv4 } from 'uuid';
 
-// using material UI
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-// use list items from material UI
+// Use list items from material UI
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 
@@ -44,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	button: {
 		height: 55,
+	},
+	button_remove_all: {
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(2),
+		height: 40,
 	},
 	list: {
 		alignItems: 'center',
@@ -109,11 +111,17 @@ export default function Todos() {
 	const deleteTodo = (id) => {
 		if (window.confirm('Delete the item?')) {
 			const newTodoList = todos.filter((todo) => todo._id !== id);
-	
 			setTodos(newTodoList);
 			persist(newTodoList);
 		}
-		
+	};
+
+	const deleteAllCompletedTodos = () => {
+		if (window.confirm('Delete all the completed item?')) {
+			const newTodoList = todos.filter((todo) => todo.checked !== true);
+			setTodos(newTodoList);
+			persist(newTodoList);
+		}
 	};
 
 	const toggleTodo = (id) => {
@@ -142,6 +150,16 @@ export default function Todos() {
 					<MenuItem value='completed'>Completed</MenuItem>
 				</Select>
 			</FormControl>
+			{filter === 'completed' && (
+				<Button
+					className={classes.button_remove_all}
+					type='submit'
+					variant='contained'
+					color='secondary'
+					onClick={() => deleteAllCompletedTodos()}>
+					Remove all completed
+				</Button>
+			)}
 
 			<br />
 
@@ -203,15 +221,6 @@ export default function Todos() {
 					);
 				})}
 			</List>
-
-			{/* <br />
-			<Button
-				className={classes.button}
-				type='submit'
-				variant='contained'
-				color='secondary'>
-				Remove all completed
-			</Button> */}
 		</div>
 	);
 }
