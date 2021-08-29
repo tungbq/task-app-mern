@@ -70,7 +70,7 @@ export default function Todos() {
 	const [filter, setFilter] = useState('uncompleted');
 
 	const persist = (newTodos) => {
-		fetch(`http://localhost:4000/todos`, {
+		fetch(`http://127.0.0.1:4000/todos`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export default function Todos() {
 	};
 
 	useEffect(() => {
-		fetch(`http://localhost:4000/todos`, {
+		fetch(`http://127.0.0.1:4000/todos`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
