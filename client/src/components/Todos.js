@@ -74,7 +74,7 @@ export default function Todos() {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Basic ${credentials.username}:${credentials.password}`,
+				Authorization: `Bearer ${credentials.token.token}`,
 			},
 			body: JSON.stringify(newTodos),
 		}).then(() => {});
@@ -91,7 +91,7 @@ export default function Todos() {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Basic ${credentials.username}:${credentials.password}`,
+				Authorization: `Bearer ${credentials.token.token}`,
 			},
 		})
 			.then((response) => response.json())

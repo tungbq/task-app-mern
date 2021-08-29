@@ -80,10 +80,11 @@ export default function SignIn() {
       })
     })
     .then(handleErrors)
-    .then(() => {
+    .then((response) => response.json())
+    .then((token) => {
       setCredentials({
         username,
-        password
+        token
       })
       history.push('/')
     })
