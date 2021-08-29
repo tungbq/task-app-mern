@@ -3,6 +3,7 @@ const connectDB = require('./config/db.js');
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const path = require('path');
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -20,6 +21,17 @@ app.use('/', userRoutes);
 
 app.use('/', todoRoutes);
 app.use('/', todoRoutes);
+
+const __dirname = path.resolve()
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/client/build')))
+    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')))
+} else {
+    app.get('/', (req, res) => {
+        res.send('API is running...')
+    })
+}
 
 app.listen(PORT, () => {
 	console.log(`Server is up and running on port ${PORT}`);
