@@ -5,9 +5,9 @@ const Todos = require('../models/todosModel.js');
 // @route   GET /login
 // @access  Private
 const getTodo = async (req, res) => {
-	const { authorization } = req.headers;
-	const [, token] = authorization.split(' ');
-	const [username, password] = token.split(':');
+	// const { authorization } = req.headers;
+	// const [, token] = authorization.split(' ');
+	// const [username, password] = token.split(':');
 
 	const todosItems = req.body;
 	const user = await User.findOne({ username }).exec();
@@ -26,18 +26,18 @@ const getTodo = async (req, res) => {
 // @route   POST /todos
 // @access  Private
 const updateTodo = async (req, res) => {
-	const { authorization } = req.headers;
-	const [, token] = authorization.split(' ');
-	const [username, password] = token.split(':');
+	// const { authorization } = req.headers;
+	// const [, token] = authorization.split(' ');
+	// const [username, password] = token.split(':');
 
 	const todosItems = req.body;
-	const user = await User.findOne({ username }).exec();
+	// const user = await User.findOne({ username }).exec();
 
-	if (!user || user.password !== password) {
-		return res.status(403).send({
-			message: 'Invalid login!',
-		});
-	}
+	// if (!user || user.password !== password) {
+	// 	return res.status(403).send({
+	// 		message: 'Invalid login!',
+	// 	});
+	// }
 
 	const todos = await Todos.findOne({ userID: user._id }).exec();
 
