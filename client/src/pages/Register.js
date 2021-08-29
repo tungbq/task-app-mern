@@ -80,10 +80,11 @@ export default function SignIn() {
 			}),
 		})
 			.then(handleErrors)
-			.then(() => {
+			.then((response) => response.json())
+			.then((token) => {
 				setCredentials({
 					username,
-					password,
+					token,
 				});
 				history.push('/');
 			})
@@ -105,7 +106,7 @@ export default function SignIn() {
 					Register
 				</Typography>
 
-        {error && (<span style={{color: "red"}}>{error}</span>)}
+				{error && <span style={{ color: 'red' }}>{error}</span>}
 
 				<form className={classes.form} noValidate>
 					<TextField
