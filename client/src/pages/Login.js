@@ -2,8 +2,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -18,9 +16,8 @@ import React, { useContext, useState } from 'react';
 
 export const handleErrors = async (response) => {
 	if (!response.ok) {
-		const { message } = await response.json();
-		console.log('message:', message);
-		throw Error(message);
+		if (response.status === 401) throw Error('Invalid username or password!');
+		throw Error('Login failed!');
 	}
 	return response;
 };
@@ -64,7 +61,7 @@ export default function SignIn() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
-	const [credentials, setCredentials] = useContext(CredentalsContext);
+	const [, setCredentials] = useContext(CredentalsContext);
 
 	const updateCredentials = (token) => {
 		setCredentials({

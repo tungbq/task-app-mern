@@ -1,8 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState } from 'react';
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Register from './pages/Register';
 import Welcome from './pages/Welcome';
 import Login from './pages/Login';
