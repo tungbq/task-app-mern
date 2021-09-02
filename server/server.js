@@ -15,6 +15,7 @@ connectDB();
 
 const corsOptions = {
 	origin: ['https://tungtask.herokuapp.com', 'http://localhost:3000'],
+	optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
