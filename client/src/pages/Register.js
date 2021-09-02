@@ -119,6 +119,9 @@ export default function SignIn() {
 		<Container component='main' maxWidth='xs'>
 			<CssBaseline />
 			<div className={classes.paper}>
+				<h1>
+					<strong>Welcome to task app</strong>
+				</h1>
 				<Avatar className={classes.avatar}>
 					<LockOpenRoundedIcon />
 				</Avatar>

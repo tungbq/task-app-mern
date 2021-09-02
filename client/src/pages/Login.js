@@ -95,7 +95,7 @@ export default function SignIn() {
 			.then(handleErrors)
 			.then((response) => response.json())
 			.then((token) => {
-				updateCredentials(token)
+				updateCredentials(token);
 				history.push('/');
 			})
 			.catch((err) => {
@@ -109,6 +109,9 @@ export default function SignIn() {
 		<Container component='main' maxWidth='xs'>
 			<CssBaseline />
 			<div className={classes.paper}>
+				<h1>
+					<strong>Welcome to task app</strong>
+				</h1>
 				<Avatar className={classes.avatar}>
 					<LockOutlinedIcon />
 				</Avatar>
