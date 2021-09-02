@@ -84,6 +84,10 @@ export default function SignIn() {
 
 	const register = (e) => {
 		e.preventDefault();
+
+		if (!username) return setError('Username field is required!');
+		if (!password) return setError('Password field is required!');
+
 		if (password !== confirmPassword) {
 			return setError("Those passwords didn't match. Please try again!");
 		}
