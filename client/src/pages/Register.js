@@ -64,8 +64,9 @@ export default function SignIn() {
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [error, setError] = useState('');
-	const [credentials, setCredentials] = useContext(CredentalsContext);
+	const [, setCredentials] = useContext(CredentalsContext);
 
 	const updateCredentials = (token) => {
 		setCredentials({
@@ -83,6 +84,10 @@ export default function SignIn() {
 
 	const register = (e) => {
 		e.preventDefault();
+		if (password !== confirmPassword) {
+			return setError("Those passwords didn't match. Please try again!");
+		}
+
 		fetch(`http://localhost:4000/register`, {
 			method: 'POST',
 			headers: {
@@ -143,6 +148,19 @@ export default function SignIn() {
 						id='password'
 						autoComplete='current-password'
 						onChange={(e) => setPassword(e.target.value)}
+					/>
+
+					<TextField
+						variant='outlined'
+						margin='normal'
+						required
+						fullWidth
+						name='confirm-password'
+						label='Confirm password'
+						type='password'
+						id='password'
+						autoComplete='current-password'
+						onChange={(e) => setConfirmPassword(e.target.value)}
 					/>
 
 					<Button
