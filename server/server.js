@@ -14,7 +14,7 @@ const todoRoutes = require('./routes/todoRoutes.js');
 connectDB();
 
 const corsOptions = {
-	origin: 'https://tungtask.herokuapp.com',
+	origin: ['https://tungtask.herokuapp.com', 'http://localhost:3000'],
 };
 
 app.use(cors(corsOptions));
