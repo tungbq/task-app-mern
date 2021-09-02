@@ -14,22 +14,43 @@ const todoRoutes = require('./routes/todoRoutes.js');
 
 connectDB();
 
-app.use('*', createProxyMiddleware({ target: 'https://tungtask.herokuapp.com', changeOrigin: true }));
-
-// const corsOptions = {
-// 	origin: ['https://tungtask.herokuapp.com', 'http://localhost:3000'],
-// 	optionsSuccessStatus: 200
-// };
-
-// app.use(cors(corsOptions));
-
 app.use(express.json());
 
-app.use('/', userRoutes);
-app.use('/', userRoutes);
+app.use(
+	'/',
+	createProxyMiddleware({
+		target: 'https://tungtask.herokuapp.com',
+		changeOrigin: true,
+	}),
+	userRoutes
+);
 
-app.use('/', todoRoutes);
-app.use('/', todoRoutes);
+app.use(
+	'/',
+	createProxyMiddleware({
+		target: 'https://tungtask.herokuapp.com',
+		changeOrigin: true,
+	}),
+	userRoutes
+);
+
+app.use(
+	'/',
+	createProxyMiddleware({
+		target: 'https://tungtask.herokuapp.com',
+		changeOrigin: true,
+	}),
+	todoRoutes
+);
+
+app.use(
+	'/',
+	createProxyMiddleware({
+		target: 'https://tungtask.herokuapp.com',
+		changeOrigin: true,
+	}),
+	todoRoutes
+);
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname, '../client/build')));
