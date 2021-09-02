@@ -13,17 +13,11 @@ const todoRoutes = require('./routes/todoRoutes.js');
 
 connectDB();
 
-app.use(cors());
+const corsOptions = {
+	origin: 'https://tungtask.herokuapp.com',
+};
 
-app.use(function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET, PUT, POST');
-	res.header(
-		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content-Type, Accept'
-	);
-	next();
-});
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
