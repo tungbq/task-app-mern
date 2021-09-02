@@ -33,9 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Welcome() {
 	const classes = useStyles();
-	const [initCredentials, setCredentials] = useContext(CredentalsContext);
-
-	const credentials = initCredentials;
+	const [credentials, setCredentials] = useContext(CredentalsContext);
 
 	const logout = () => {
 		setCredentials(null);

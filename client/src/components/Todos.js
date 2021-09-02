@@ -68,8 +68,6 @@ export default function Todos() {
 	const [todoText, setTodoText] = useState('');
 	const [credentials] = useContext(CredentalsContext);
 
-	console.log("credentials: ", credentials)
-
 	const [filter, setFilter] = useState('uncompleted');
 
 	const persist = (newTodos) => {

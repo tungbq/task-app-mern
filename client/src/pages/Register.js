@@ -83,8 +83,8 @@ export default function SignIn() {
 			.then((response) => response.json())
 			.then((token) => {
 				setCredentials({
-					username,
-					token,
+				  username: username,
+				  token:token.token
 				})
 				localStorage.setItem(
 					'credentials',
@@ -92,7 +92,7 @@ export default function SignIn() {
 						username,
 						token: token.token,
 					})
-				)
+				);
 
 				history.push('/');
 			})
