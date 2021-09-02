@@ -1,10 +1,11 @@
 const User = require('../models/userModel.js');
 const generateToken = require('../utils/generateToken.js');
+const asyncHandler = require('express-async-handler');
 
 // @desc    Auth user
 // @route   POST /login
 // @access  Public
-const authUser = async (req, res) => {
+const authUser = asyncHandler(async (req, res) => {
 	const { username, password } = req.body;
 	const user = await User.findOne({ username }).exec();
 
@@ -25,7 +26,7 @@ const authUser = async (req, res) => {
 		message: 'success',
 		token: generateToken(user._id),
 	});
-};
+});
 
 // @desc    Register user
 // @route   POST /register
