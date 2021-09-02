@@ -7,7 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: theme.palette.primary.main,
 	},
 	form: {
 		width: '100%', // Fix IE 11 issue.
@@ -64,8 +64,9 @@ export default function SignIn() {
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [error, setError] = useState('');
-	const [credentials, setCredentials] = useContext(CredentalsContext);
+	const [, setCredentials] = useContext(CredentalsContext);
 
 	const updateCredentials = (token) => {
 		setCredentials({
@@ -83,6 +84,10 @@ export default function SignIn() {
 
 	const register = (e) => {
 		e.preventDefault();
+		if (password !== confirmPassword) {
+			return setError("Those passwords didn't match. Please try again!");
+		}
+
 		fetch(`http://localhost:4000/register`, {
 			method: 'POST',
 			headers: {
@@ -111,7 +116,7 @@ export default function SignIn() {
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
-					<LockOutlinedIcon />
+					<LockOpenRoundedIcon />
 				</Avatar>
 				<Typography component='h1' variant='h5'>
 					Register
@@ -143,6 +148,19 @@ export default function SignIn() {
 						id='password'
 						autoComplete='current-password'
 						onChange={(e) => setPassword(e.target.value)}
+					/>
+
+					<TextField
+						variant='outlined'
+						margin='normal'
+						required
+						fullWidth
+						name='confirm-password'
+						label='Confirm password'
+						type='password'
+						id='password'
+						autoComplete='current-password'
+						onChange={(e) => setConfirmPassword(e.target.value)}
 					/>
 
 					<Button
