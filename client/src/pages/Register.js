@@ -2,10 +2,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import Typography from '@material-ui/core/Typography';
@@ -16,15 +13,6 @@ import { useHistory } from 'react-router-dom';
 import { CredentalsContext } from '../App';
 import React, { useContext, useState } from 'react';
 import { handleErrors } from './Login';
-
-// export const handleErrors = async (response) => {
-//   if (!response.ok) {
-//       const {message} = await response.json()
-//       console.log("message:", message)
-//       throw Error(message);
-//   }
-//   return response;
-// }
 
 function Copyright() {
 	return (

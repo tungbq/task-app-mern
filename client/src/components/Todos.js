@@ -97,7 +97,7 @@ export default function Todos() {
 		})
 			.then((response) => response.json())
 			.then((todos) => setTodos(todos));
-	}, []);
+	}, [credentials]);
 
 	const addTodo = (e) => {
 		e.preventDefault();
