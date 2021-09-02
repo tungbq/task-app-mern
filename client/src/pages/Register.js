@@ -67,6 +67,20 @@ export default function SignIn() {
 	const [error, setError] = useState('');
 	const [credentials, setCredentials] = useContext(CredentalsContext);
 
+	const updateCredentials = (token) => {
+		setCredentials({
+			username: username,
+			token: token.token,
+		});
+		localStorage.setItem(
+			'credentials',
+			JSON.stringify({
+				username,
+				token: token.token,
+			})
+		);
+	};
+
 	const register = (e) => {
 		e.preventDefault();
 		fetch(`http://localhost:4000/register`, {
@@ -82,18 +96,7 @@ export default function SignIn() {
 			.then(handleErrors)
 			.then((response) => response.json())
 			.then((token) => {
-				setCredentials({
-				  username: username,
-				  token:token.token
-				})
-				localStorage.setItem(
-					'credentials',
-					JSON.stringify({
-						username,
-						token: token.token,
-					})
-				);
-
+				updateCredentials(token);
 				history.push('/');
 			})
 			.catch((err) => {
