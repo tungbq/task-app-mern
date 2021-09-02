@@ -14,7 +14,7 @@ const todoRoutes = require('./routes/todoRoutes.js');
 
 connectDB();
 
-app.use('/', createProxyMiddleware({ target: 'https://tungtask.herokuapp.com', changeOrigin: true }));
+app.use('*', createProxyMiddleware({ target: 'https://tungtask.herokuapp.com', changeOrigin: true }));
 
 // const corsOptions = {
 // 	origin: ['https://tungtask.herokuapp.com', 'http://localhost:3000'],
