@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 	},
 	button: {
-    margin: theme.spacing(1),
-  },
+		margin: theme.spacing(1),
+	},
 }));
 
 export default function Welcome() {
@@ -37,6 +37,7 @@ export default function Welcome() {
 
 	const logout = () => {
 		setCredentials(null);
+		localStorage.removeItem('credentials');
 	};
 
 	return (

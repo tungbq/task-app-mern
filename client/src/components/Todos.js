@@ -67,6 +67,7 @@ export default function Todos() {
 	const [todos, setTodos] = useState([]);
 	const [todoText, setTodoText] = useState('');
 	const [credentials] = useContext(CredentalsContext);
+
 	const [filter, setFilter] = useState('uncompleted');
 
 	const persist = (newTodos) => {
@@ -74,7 +75,7 @@ export default function Todos() {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${credentials.token.token}`,
+				Authorization: `Bearer ${credentials.token}`,
 			},
 			body: JSON.stringify(newTodos),
 		}).then(() => {});
@@ -91,7 +92,7 @@ export default function Todos() {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${credentials.token.token}`,
+				Authorization: `Bearer ${credentials.token}`,
 			},
 		})
 			.then((response) => response.json())

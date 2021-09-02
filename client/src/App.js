@@ -10,7 +10,8 @@ import Login from './pages/Login';
 export const CredentalsContext = React.createContext(null);
 
 function App() {
-  const credentialsState = useState(null)
+	const initCredentials = JSON.parse(localStorage.getItem('credentials'));
+	const credentialsState = useState(initCredentials);
 
 	return (
 		<CredentalsContext.Provider value={credentialsState}>

@@ -14,160 +14,169 @@ import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
 
 import { CredentalsContext } from '../App';
-import React, { useContext, useState } from 'react'
-
+import React, { useContext, useState } from 'react';
 
 export const handleErrors = async (response) => {
-  if (!response.ok) {
-      const {message} = await response.json()
-      console.log("message:", message)
-      throw Error(message);
-  }
-  return response;
-}
+	if (!response.ok) {
+		const { message } = await response.json();
+		console.log('message:', message);
+		throw Error(message);
+	}
+	return response;
+};
 
 function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Tung Task App
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
+	return (
+		<Typography variant='body2' color='textSecondary' align='center'>
+			{'Copyright © '}
+			<Link color='inherit' href='https://material-ui.com/'>
+				Tung Task App
+			</Link>{' '}
+			{new Date().getFullYear()}
+			{'.'}
+		</Typography>
+	);
 }
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+	paper: {
+		marginTop: theme.spacing(8),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+	},
+	avatar: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.secondary.main,
+	},
+	form: {
+		width: '100%', // Fix IE 11 issue.
+		marginTop: theme.spacing(1),
+	},
+	submit: {
+		margin: theme.spacing(3, 0, 2),
+	},
 }));
 
 export default function SignIn() {
-  const classes = useStyles();
+	const classes = useStyles();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [credentials, setCredentials] = useContext(CredentalsContext)
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+	const [credentials, setCredentials] = useContext(CredentalsContext);
 
-  const login = (e) => {
-    e.preventDefault()
-    fetch(`http://localhost:4000/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      })
-    })
-    .then(handleErrors)
-    .then((response) => response.json())
-    .then((token) => {
-      setCredentials({
-        username,
-        token
-      })
-      history.push('/')
-    })
-    .catch((err) => {
-      setError(err.message)
-    })
-  }
+	const updateCredentials = (token) => {
+		setCredentials({
+			username: username,
+			token: token.token,
+		});
+		localStorage.setItem(
+			'credentials',
+			JSON.stringify({
+				username,
+				token: token.token,
+			})
+		);
+	};
 
-  const history = useHistory()
+	const login = (e) => {
+		e.preventDefault();
+		fetch(`http://localhost:4000/login`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				username,
+				password,
+			}),
+		})
+			.then(handleErrors)
+			.then((response) => response.json())
+			.then((token) => {
+				updateCredentials(token)
+				history.push('/');
+			})
+			.catch((err) => {
+				setError(err.message);
+			});
+	};
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+	const history = useHistory();
 
-        {error && (<span style={{color: "red"}}>{error}</span>)}
+	return (
+		<Container component='main' maxWidth='xs'>
+			<CssBaseline />
+			<div className={classes.paper}>
+				<Avatar className={classes.avatar}>
+					<LockOutlinedIcon />
+				</Avatar>
+				<Typography component='h1' variant='h5'>
+					Sign in
+				</Typography>
 
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+				{error && <span style={{ color: 'red' }}>{error}</span>}
 
-          {/* TODO: Implement later */}
-          {/* <FormControlLabel
+				<form className={classes.form} noValidate>
+					<TextField
+						variant='outlined'
+						margin='normal'
+						required
+						fullWidth
+						id='username'
+						label='Username'
+						name='username'
+						autoComplete='username'
+						autoFocus
+						onChange={(e) => setUsername(e.target.value)}
+					/>
+					<TextField
+						variant='outlined'
+						margin='normal'
+						required
+						fullWidth
+						name='password'
+						label='Password'
+						type='password'
+						id='password'
+						autoComplete='current-password'
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+
+					{/* TODO: Implement later */}
+					{/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           /> */}
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={login}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            {/* TODO: Implement later */}
-            {/* <Grid item xs>
+					<Button
+						type='submit'
+						fullWidth
+						variant='contained'
+						color='primary'
+						className={classes.submit}
+						onClick={login}>
+						Sign In
+					</Button>
+					<Grid container>
+						{/* TODO: Implement later */}
+						{/* <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid> */}
-            <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
-  );
+						<Grid item>
+							<Link href='/register' variant='body2'>
+								{"Don't have an account? Sign Up"}
+							</Link>
+						</Grid>
+					</Grid>
+				</form>
+			</div>
+			<Box mt={8}>
+				<Copyright />
+			</Box>
+		</Container>
+	);
 }
