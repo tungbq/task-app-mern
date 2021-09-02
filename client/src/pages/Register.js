@@ -85,7 +85,15 @@ export default function SignIn() {
 				setCredentials({
 					username,
 					token,
-				});
+				})
+				localStorage.setItem(
+					'credentials',
+					JSON.stringify({
+						username,
+						token: token.token,
+					})
+				)
+
 				history.push('/');
 			})
 			.catch((err) => {

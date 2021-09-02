@@ -27,16 +27,19 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 	},
 	button: {
-    margin: theme.spacing(1),
-  },
+		margin: theme.spacing(1),
+	},
 }));
 
 export default function Welcome() {
 	const classes = useStyles();
-	const [credentials, setCredentials] = useContext(CredentalsContext);
+	const [initCredentials, setCredentials] = useContext(CredentalsContext);
+
+	const credentials = initCredentials;
 
 	const logout = () => {
 		setCredentials(null);
+		localStorage.removeItem('credentials');
 	};
 
 	return (
