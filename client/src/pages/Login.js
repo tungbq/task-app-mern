@@ -18,9 +18,8 @@ import React, { useContext, useState } from 'react';
 
 export const handleErrors = async (response) => {
 	if (!response.ok) {
-		const { message } = await response.json();
-		console.log('message:', message);
-		throw Error(message);
+		if (response.status === 401) throw Error('Invalid username or password!');
+		throw Error('Login failed!');
 	}
 	return response;
 };
