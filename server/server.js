@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -13,12 +14,14 @@ const todoRoutes = require('./routes/todoRoutes.js');
 
 connectDB();
 
-const corsOptions = {
-	origin: ['https://tungtask.herokuapp.com', 'http://localhost:3000'],
-	optionsSuccessStatus: 200
-};
+app.use('/', createProxyMiddleware({ target: 'https://tungtask.herokuapp.com', changeOrigin: true }));
 
-app.use(cors(corsOptions));
+// const corsOptions = {
+// 	origin: ['https://tungtask.herokuapp.com', 'http://localhost:3000'],
+// 	optionsSuccessStatus: 200
+// };
+
+// app.use(cors(corsOptions));
 
 app.use(express.json());
 
