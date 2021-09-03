@@ -14,13 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { CredentalsContext } from '../App';
 import React, { useContext, useState } from 'react';
 
-export const handleErrors = async (response) => {
-	if (!response.ok) {
-		if (response.status === 401) throw Error('Invalid username or password!');
-		throw Error('Login failed!');
-	}
-	return response;
-};
+import axios from 'axios';
 
 function Copyright() {
 	return (
@@ -63,40 +57,48 @@ export default function SignIn() {
 	const [error, setError] = useState('');
 	const [, setCredentials] = useContext(CredentalsContext);
 
-	const updateCredentials = (token) => {
+	const updateCredentials = (data) => {
 		setCredentials({
-			username: username,
-			token: token.token,
+			username: data.name,
+			token: data.token,
 		});
 		localStorage.setItem(
 			'credentials',
 			JSON.stringify({
-				username,
-				token: token.token,
+				username: data.name,
+				token: data.token,
 			})
 		);
 	};
 
 	const login = (e) => {
 		e.preventDefault();
-		fetch(`http://localhost:4000/login`, {
-			method: 'POST',
+
+		const config = {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({
-				username,
-				password,
-			}),
-		})
-			.then(handleErrors)
-			.then((response) => response.json())
-			.then((token) => {
-				updateCredentials(token);
+		};
+
+		axios
+			.post(
+				'http://localhost:4000/login',
+				JSON.stringify({
+					username,
+					password,
+				}),
+				config
+			)
+			.then((response) => {
+				updateCredentials(response.data);
 				history.push('/');
 			})
 			.catch((err) => {
-				setError(err.message);
+				if (err.response && err.response.status === 401) {
+					return setError('Invalid username or password!');
+				} else {
+					return setError(err.message);
+				}
 			});
 	};
 

@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom';
 
 import { CredentalsContext } from '../App';
 import React, { useContext, useState } from 'react';
-import { handleErrors } from './Login';
+import axios from 'axios';
 
 function Copyright() {
 	return (
@@ -80,24 +80,27 @@ export default function SignIn() {
 			return setError("Those passwords didn't match. Please try again!");
 		}
 
-		fetch(`http://localhost:4000/register`, {
-			method: 'POST',
+		const config = {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({
-				username,
-				password,
-			}),
-		})
-			.then(handleErrors)
-			.then((response) => response.json())
-			.then((token) => {
-				updateCredentials(token);
+		};
+
+		axios
+			.post(
+				'http://localhost:4000/register',
+				JSON.stringify({
+					username,
+					password,
+				}),
+				config
+			)
+			.then((response) => {
+				updateCredentials(response.data);
 				history.push('/');
 			})
 			.catch((err) => {
-				setError(err.message);
+				return setError(err.message);
 			});
 	};
 
