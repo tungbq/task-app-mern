@@ -170,6 +170,15 @@ export default function SignIn() {
 						onClick={register}>
 						Register
 					</Button>
+
+					<Button
+						type='submit'
+						fullWidth
+						variant='contained'
+						color='secondary'
+						onClick={() => history.push('/')}>
+						Back to login page
+					</Button>
 				</form>
 			</div>
 			<Box mt={8}>
