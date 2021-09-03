@@ -82,7 +82,7 @@ export default function SignIn() {
 
 		axios
 			.post(
-				'http://localhost:4000/login',
+				'/login',
 				JSON.stringify({
 					username,
 					password,
