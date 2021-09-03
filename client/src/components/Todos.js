@@ -22,6 +22,8 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 
+import axios from 'axios';
+
 const useStyles = makeStyles((theme) => ({
 	formControl: {
 		margin: theme.spacing(2),
@@ -71,14 +73,14 @@ export default function Todos() {
 	const [filter, setFilter] = useState('uncompleted');
 
 	const persist = (newTodos) => {
-		fetch(`http://localhost:4000/todos`, {
-			method: 'POST',
+		const config = {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${credentials.token}`,
 			},
-			body: JSON.stringify(newTodos),
-		}).then(() => {});
+		};
+
+		axios.post('/todos', JSON.stringify(newTodos), config);
 	};
 
 	const getTodos = () => {
@@ -88,15 +90,16 @@ export default function Todos() {
 	};
 
 	useEffect(() => {
-		fetch(`http://localhost:4000/todos`, {
-			method: 'GET',
+		const config = {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${credentials.token}`,
 			},
-		})
-			.then((response) => response.json())
-			.then((todos) => setTodos(todos));
+		};
+
+		axios.get('/todos', config).then((response) => {
+			setTodos(response.data);
+		});
 	}, [credentials]);
 
 	const addTodo = (e) => {
