@@ -61,7 +61,7 @@ export default function Welcome() {
 							to task app
 						</Typography>
 						<Button color='inherit' onClick={logout}>
-							Logout
+							Sign out
 						</Button>
 					</Toolbar>
 				</AppBar>
