@@ -22,6 +22,9 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -138,24 +141,30 @@ export default function Todos() {
 		persist(newTodoList);
 	};
 
-	const changeFilter = (newFilter) => {
-		setFilter(newFilter);
+	const changeFilter = () => {
+		if (filter === 'uncompleted') {
+			setFilter('completed');
+		} else {
+			setFilter('uncompleted');
+		}
 	};
 
 	return (
 		<div>
 			<FormControl className={classes.formControl}>
-				<InputLabel id='demo-simple-select-label'>Status</InputLabel>
-				<Select
-					value={filter}
-					labelId='demo-simple-select-label'
-					id='demo-simple-select'
-					onChange={(e) => changeFilter(e.target.value)}>
-					<MenuItem value='uncompleted'>Uncompleted</MenuItem>
-					<MenuItem value='completed'>Completed</MenuItem>
-				</Select>
+				<FormControlLabel
+					control={
+						<Switch
+							checked={filter === 'completed'}
+							onChange={(e) => changeFilter()}
+							name='toggleTodos'
+						/>
+					}
+					label='Completed'
+				/>
 			</FormControl>
-			{filter === 'completed' && (
+
+			{/* {filter === 'completed' && (
 				<Button
 					className={classes.button_remove_all}
 					type='submit'
@@ -164,7 +173,7 @@ export default function Todos() {
 					onClick={() => deleteAllCompletedTodos()}>
 					Remove all completed
 				</Button>
-			)}
+			)} */}
 
 			<br />
 
